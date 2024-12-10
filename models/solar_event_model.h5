@@ -1,0 +1,20 @@
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+# Simulated training data
+X_train = np.random.rand(1000, 3)  # 3 input features: x-ray, proton, electron flux
+y_train = (X_train.sum(axis=1) > 1.5).astype(int)  # Binary classification
+
+# Model structure
+model = Sequential([
+    Dense(64, activation="relu", input_shape=(3,)),
+    Dense(32, activation="relu"),
+    Dense(1, activation="sigmoid")
+])
+
+model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
+model.fit(X_train, y_train, epochs=20, batch_size=32)
+
+# Save the model
+model.save("models/solar_event_model.h5")
